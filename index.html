@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dinesh Ambulance Service</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Poppins:wght@600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <style>
+    /* RESET */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    html {
+      font-family: 'Inter', 'Poppins', sans-serif;
+      font-size: 16px;
+      scroll-behavior: smooth;
+    }
+    body {
+      margin: 0;
+      background: #f6f9fc;
+      color: #1f2937;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      scroll-padding-top: 80px;
+    }
+
+    a {
+      text-decoration: none;
+      color: #e11d48;
+      transition: color 0.3s ease;
+    }
+    a:hover, a:focus {
+      color: #be123c;
+      outline-offset: 2px;
+    }
+
+    h1,h2,h3,h4,h5,h6 {
+      font-weight: 700;
+      color: #111827;
+      margin-top: 0;
+      margin-bottom: .5em;
+    }
+
+    p {
+      margin-top: 0;
+      margin-bottom: 1em;
+      color: #374151;
+    }
+
+    /* LAYOUT */
+    header {
+      position: sticky;
+      top: 0;
+      background: rgba(255 255 255 / 0.85);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 2px 12px rgb(0 0 0 / 0.1);
+      z-index: 1000;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      font-family: 'Poppins', sans-serif;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: clamp(1.25rem, 1.8vw, 1.75rem);
+      font-weight: 800;
+      color: #b91c1c;
+      user-select: none;
+    }
+    .logo .material-icons {
+      font-size: 36px;
+      color: #dc2626;
+    }
+
+    nav ul {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-weight: 600;
+    }
+    nav li a {
+      padding: 8px 12px;
+      border-radius: 12px;
+      font-weight: 600;
+      color: #b91c1c;
+    }
+    nav li a[aria-current="page"], nav li a:hover, nav li a:focus-visible {
+      background: #fde2e2;
+      color: #7f1d1d;
+      outline-offset: 2px;
+    }
+    .emergency-contact {
+      font-size: 1.125rem;
+      color: #dc2626;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      user-select: none;
+    }
+    .emergency-contact .material-icons {
+      font-size: 28px;
+    }
+    /* HERO */
+    section#hero {
+      background: linear-gradient(135deg, #dc2626ee 0%, #b91c1cee 100%);
+      color: #fff;
+      padding: 120px 24px 96px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    section#hero.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    section#hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 320px;
+      height: 320px;
+      background: url("https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/d518a107-2431-4c3c-9958-1a38df3153bd.png") no-repeat center/contain;
+      opacity: 0.15;
+      pointer-events: none;
+      user-select: none;
+      filter: drop-shadow(0 0 5px #7f1d1daa);
+      transform: translateY(20%);
+    }
+    section#hero h1 {
+      font-size: clamp(2.5rem, 5vw, 3.75rem);
+      font-weight: 900;
+      margin-bottom: 20px;
+      line-height: 1.1;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+    section#hero p {
+      font-size: clamp(1rem, 1.5vw, 1.35rem);
+      margin-bottom: 36px;
+      max-width: 640px;
+      margin-left: auto;
+      margin-right: auto;
+      font-weight: 600;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.3);
+    }
+    /* Anchor styled as primary button */
+    a.btn-primary {
+      background-color: #f87171;
+      color: white;
+      font-weight: 700;
+      border: none;
+      padding: 16px 40px;
+      border-radius: 40px;
+      font-size: 1.125rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 8px 20px rgb(248 113 113 / 0.5);
+      user-select: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      text-align: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    a.btn-primary:hover, a.btn-primary:focus-visible {
+      background-color: #dc2626;
+      box-shadow: 0 12px 32px rgb(220 38 38 / 0.7);
+      outline-offset: 2px;
+    }
+    a.btn-primary .material-icons {
+      font-size: 24px;
+    }
+    /* Ripple effect */
+    a.btn-primary .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255 255 255 / 0.4);
+      animation: ripple-animation 0.6s linear;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+    }
+    @keyframes ripple-animation {
+      from {
+        width: 0;
+        height: 0;
+        opacity: 0.6;
+      }
+      to {
+        width: 200px;
+        height: 200px;
+        opacity: 0;
+      }
+    }
+
+    /* SECTIONS */
+    main {
+      max-width: 1024px;
+      margin: 0 auto;
+      padding: 48px 24px 96px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 80px;
+    }
+    section {
+      background: #fff;
+      border-radius: 24px;
+      box-shadow: 0 8px 24px rgb(0 0 0 / 0.1);
+      padding: 36px 48px;
+      scroll-margin-top: 96px;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    section h2 {
+      margin-bottom: 28px;
+      font-weight: 800;
+      font-size: clamp(1.75rem, 3vw, 2.25rem);
+      color: #b91c1c;
+    }
+
+    /* SERVICES */
+    #services-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
+      gap: 32px;
+    }
+    .service-card {
+      background: #fef2f2;
+      border-radius: 24px;
+      padding: 24px 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 0 4px 16px rgb(220 38 38 / 0.15);
+      transition: box-shadow 0.3s ease;
+      cursor: default;
+      user-select: none;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .service-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .service-card:hover, .service-card:focus-within {
+      box-shadow: 0 8px 32px rgb(220 38 38 / 0.4);
+      outline: none;
+    }
+    .service-icon {
+      font-size: 48px;
+      color: #dc2626;
+      margin-bottom: 16px;
+    }
+    .service-title {
+      font-weight: 700;
+      font-size: 1.25rem;
+      margin-bottom: 12px;
+      color: #991b1b;
+    }
+    .service-desc {
+      color: #7f1d1d;
+      font-weight: 600;
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    /* BOOKING FORM */
+    form label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 0.4em;
+      user-select: none;
+    }
+    input, select, textarea {
+      width: 100%;
+      border: 2px solid #dc2626;
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-size: 1rem;
+      font-family: inherit;
+      transition: border-color 0.3s ease;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: #991b1b;
+      outline: none;
+      box-shadow: 0 0 8px rgb(220 38 38 / 0.5);
+    }
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+    .field-error {
+      color: #b91c1c;
+      font-weight: 700;
+      font-size: 0.875rem;
+      margin-top: 4px;
+      min-height: 20px;
+      user-select: none;
+    }
+    .form-row {
+      margin-bottom: 20px;
+    }
+    button[type="submit"] {
+      background-color: #dc2626;
+      color: white;
+      border: none;
+      padding: 16px 28px;
+      font-size: 1.125rem;
+      border-radius: 40px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      user-select: none;
+      position: relative;
+      overflow: hidden;
+    }
+    button[type="submit"]:hover, button[type="submit"]:focus-visible {
+      background-color: #991b1b;
+      box-shadow: 0 12px 32px rgb(153 27 27 / 0.75);
+      outline-offset: 2px;
+    }
+    button[type="submit"] .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255 255 255 / 0.4);
+      animation: ripple-animation 0.6s linear;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+    }
+
+    /* ABOUT */
+    #about p {
+      max-width: 760px;
+      margin-left: auto;
+      margin-right: auto;
+      font-weight: 600;
+      color: #4b5563;
+    }
+    #about img {
+      max-width: 100%;
+      border-radius: 24px;
+      margin-top: 32px;
+      box-shadow: 0 12px 28px rgb(207 70 70 / 0.2);
+      user-select: none;
+    }
+
+    /* TESTIMONIALS */
+    #testimonials-list {
+      display: flex;
+      overflow-x: auto;
+      gap: 32px;
+      padding-bottom: 12px;
+      scroll-padding: 16px;
+      scrollbar-width: thin;
+      scrollbar-color: #22222255 #dddddd33;
+      scroll-behavior: smooth;
+    }
+    #testimonials-list::-webkit-scrollbar {
+      height: 8px;
+    }
+    #testimonials-list::-webkit-scrollbar-thumb {
+      background-color: #22222255;
+      border-radius: 4px;
+    }
+    .testimonial-card {
+      background: #fef2f2;
+      box-shadow: 0 4px 20px rgb(220 38 38 / 0.15);
+      border-radius: 24px;
+      padding: 24px 32px;
+      min-width: 280px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      color: #7f1d1d;
+      font-weight: 600;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .testimonial-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .testimonial-text {
+      font-style: italic;
+      font-size: 1rem;
+    }
+    .testimonial-author {
+      font-weight: 800;
+      font-size: 1.125rem;
+      color: #dc2626;
+    }
+
+    /* FAQ */
+    details {
+      border-radius: 12px;
+      margin-bottom: 16px;
+      background: #fef2f2;
+      padding: 16px 24px;
+      box-shadow: 0 4px 12px rgb(220 38 38 / 0.15);
+      font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+      transition: box-shadow 0.3s ease;
+    }
+    details[open] {
+      background: #f87171;
+      color: white;
+      box-shadow: 0 8px 28px rgb(220 38 38 / 0.5);
+    }
+    summary {
+      list-style: none;
+      outline: none;
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1rem;
+    }
+    summary::-webkit-details-marker {
+      display: none;
+    }
+    summary::before {
+      content: 'expand_more';
+      font-family: 'Material Icons';
+      font-size: 20px;
+      color: inherit;
+      transition: transform 0.3s ease;
+      display: inline-block;
+    }
+    details[open] summary::before {
+      transform: rotate(180deg);
+    }
+    details div {
+      margin-top: 12px;
+      font-weight: 500;
+      color: #b91c1c;
+    }
+
+    /* CONTACT */
+    #contact-info {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      max-width: 760px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #contact-info > div {
+      background: #fef2f2;
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 4px 20px rgb(220 38 38 / 0.15);
+      font-weight: 600;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+      user-select: none;
+    }
+    #contact-info .material-icons {
+      color: #dc2626;
+      font-size: 36px;
+    }
+    #contact-info p, #contact-info a {
+      font-weight: 700;
+      color: #991b1b;
+      word-break: break-word;
+      text-align: center;
+    }
+    #map-placeholder {
+      margin-top: 48px;
+      width: 100%;
+      height: 320px;
+      border-radius: 24px;
+      box-shadow: 0 12px 28px rgb(207 70 70 / 0.2);
+      background: url("https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/428342df-5123-4d00-973a-c397bb371ddd.png") center/cover no-repeat;
+      user-select: none;
+    }
+
+    /* FOOTER */
+    footer {
+      background: #b91c1c;
+      color: #fde2e2;
+      padding: 24px 32px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 0.875rem;
+      user-select: none;
+    }
+    footer a {
+      color: #fde2e2;
+      text-decoration: underline;
+    }
+    footer a:hover, footer a:focus {
+      color: #fee2e2;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 1024px) {
+      #contact-info {
+        grid-template-columns: 1fr;
+        max-width: 320px;
+        margin: 0 auto;
+      }
+      main {
+        padding: 48px 12px 96px;
+      }
+      section {
+        padding: 28px 24px;
+      }
+      header {
+        padding: 0 16px;
+      }
+    }
+
+    /* Carousel wrapper and controls for testimonials */
+    .carousel-wrapper {
+      position: relative;
+    }
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #dc2626cc;
+      border: none;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      transition: background-color 0.3s ease;
+    }
+    .carousel-btn:hover, .carousel-btn:focus-visible {
+      background: #991b1bcc;
+      outline-offset: 0;
+    }
+    .prev-btn {
+      left: -48px;
+    }
+    .next-btn {
+      right: -48px;
+    }
+  </style>
+</head>
+<body>
+  <header role="banner" aria-label="Main navigation header">
+    <div class="logo" aria-label="Dinesh Ambulance Service logo">
+      <span class="material-icons" aria-hidden="true">local_hospital</span>
+      Dinesh Ambulance Service
+    </div>
+    <nav aria-label="Primary">
+      <ul>
+        <li><a href="#hero" aria-current="page">Home</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#booking">Book Ambulance</a></li>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#testimonials">Testimonials</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="emergency-contact" aria-label="Emergency call number">
+      <span class="material-icons" aria-hidden="true">call</span>
+      <a href="tel:+911234567890" style="color:#dc2626; font-weight: 800;">+91 12345 67890</a>
+    </div>
+  </header>
+
+  <section id="hero" role="region" aria-label="Emergency Ambulance Service call to action">
+    <h1>Fast and Reliable Ambulance Services 24/7</h1>
+    <p>With Dinesh Ambulance Service, help is just a call or click away. Serving your emergencies with rapid, professional care.</p>
+    <a href="tel:+917428901462" class="btn-primary" aria-label="Call to book an ambulance now with phone number +91 74289 01462">
+      Book an Ambulance
+      <span class="material-icons" aria-hidden="true">local_taxi</span>
+    </a>
+  </section>
+
+  <main>
+    <section id="services" role="region" aria-label="Ambulance services offered">
+      <h2>Our Ambulance Services</h2>
+      <div id="services-list">
+        <article class="service-card" tabindex="0" aria-label="Basic Life Support Ambulance Service">
+          <span class="material-icons service-icon" aria-hidden="true">medical_services</span>
+          <div class="service-title">Basic Life Support Ambulance</div>
+          <p class="service-desc">Equipped for non-emergency transport with oxygen and trained attendants.</p>
+        </article>
+        <article class="service-card" tabindex="0" aria-label="Advanced Life Support Ambulance Service">
+          <span class="material-icons service-icon" aria-hidden="true">health_and_safety</span>
+          <div class="service-title">Advanced Life Support Ambulance</div>
+          <p class="service-desc">State-of-the-art equipment and paramedics for critical patient transport.</p>
+        </article>
+        <article class="service-card" tabindex="0" aria-label="Neonatal Ambulance Service">
+          <span class="material-icons service-icon" aria-hidden="true">child_care</span>
+          <div class="service-title">Neonatal Ambulance</div>
+          <p class="service-desc">Specialized in caring for newborns, equipped with incubators and neonatal specialists.</p>
+        </article>
+        <article class="service-card" tabindex="0" aria-label="Wheelchair Transport Service">
+          <span class="material-icons service-icon" aria-hidden="true">accessible</span>
+          <div class="service-title">Wheelchair Transport</div>
+          <p class="service-desc">Safe and comfortable transport for patients on wheelchairs.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="booking" role="region" aria-label="Emergency ambulance booking form">
+      <h2>Book an Ambulance</h2>
+      <form id="booking-form" novalidate aria-describedby="booking-instructions" aria-live="polite">
+        <p id="booking-instructions" class="sr-only">
+          Please fill in the following information to book an ambulance. Fields marked with an asterisk * are mandatory.
+        </p>
+        <div class="form-row">
+          <label for="name">Full Name *</label>
+          <input type="text" id="name" name="name" autocomplete="name" required aria-required="true" aria-invalid="false" />
+          <div id="error-name" class="field-error" aria-live="polite"></div>
+        </div>
+        <div class="form-row">
+          <label for="phone">Phone Number *</label>
+          <input type="tel" id="phone" name="phone" pattern="^\+?\d{10,15}$" autocomplete="tel" required aria-required="true" aria-invalid="false" placeholder="+911234567890" />
+          <div id="error-phone" class="field-error" aria-live="polite"></div>
+        </div>
+        <div class="form-row">
+          <label for="service-type">Ambulance Type *</label>
+          <select id="service-type" name="service-type" required aria-required="true" aria-invalid="false">
+            <option value="">Select Ambulance Type</option>
+            <option value="BLS">Basic Life Support</option>
+            <option value="ALS">Advanced Life Support</option>
+            <option value="Neonatal">Neonatal Ambulance</option>
+            <option value="Wheelchair">Wheelchair Transport</option>
+          </select>
+          <div id="error-service-type" class="field-error" aria-live="polite"></div>
+        </div>
+        <div class="form-row">
+          <label for="pickup-location">Pickup Location *</label>
+          <input type="text" id="pickup-location" name="pickup-location" autocomplete="off" required aria-required="true" aria-invalid="false" placeholder="Address or landmark" />
+          <div id="error-pickup-location" class="field-error" aria-live="polite"></div>
+        </div>
+        <div class="form-row">
+          <label for="destination-location">Destination Location *</label>
+          <input type="text" id="destination-location" name="destination-location" autocomplete="off" required aria-required="true" aria-invalid="false" placeholder="Hospital or clinic" />
+          <div id="error-destination-location" class="field-error" aria-live="polite"></div>
+        </div>
+        <div class="form-row">
+          <label for="additional-notes">Additional Notes</label>
+          <textarea id="additional-notes" name="additional-notes" rows="3" placeholder="Any special instructions or information"></textarea>
+        </div>
+        <button type="submit" aria-label="Submit ambulance booking">Book Now <span class="material-icons" aria-hidden="true">send</span></button>
+        <div id="form-success" role="alert" aria-live="assertive" style="color: #16a34a; font-weight: 700; margin-top: 16px; display: none;">Your booking request has been received. We will contact you shortly.</div>
+      </form>
+    </section>
+
+    <section id="about" role="region" aria-label="About dinesh ambulance service">
+      <h2>About Dinesh Ambulance Service</h2>
+      <p>
+        Founded in 2005, Dinesh Ambulance Service has been committed to providing fast, reliable, and compassionate emergency medical transport services. Our fleet of advanced ambulances and highly trained paramedics operate 24/7 to ensure every patient receives critical care when it matters most.
+      </p>
+      <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/7f175338-cfff-4c48-a1ef-fd706f112a0a.png" alt="A fleet of Dinesh Ambulance Service vehicles ready for emergency response" loading="lazy" width="760" height="380" />
+    </section>
+
+    <section id="testimonials" role="region" aria-label="Client testimonials">
+      <h2>What Our Clients Say</h2>
+      <div id="testimonials-list" aria-live="polite" aria-relevant="additions">
+        <article class="testimonial-card" tabindex="0">
+          <p class="testimonial-text">"Dinesh Ambulance Service arrived quickly and handled my father's emergency with compassion and professionalism. Highly recommended!"</p>
+          <p class="testimonial-author">&mdash; S. Kumar</p>
+        </article>
+        <article class="testimonial-card" tabindex="0">
+          <p class="testimonial-text">"Excellent service with well-equipped ambulances and helpful staff. Very grateful to the team at Dinesh Ambulance."</p>
+          <p class="testimonial-author">&mdash; Priya Singh</p>
+        </article>
+        <article class="testimonial-card" tabindex="0">
+          <p class="testimonial-text">"Reliable, courteous, and lifesaving! The neonatal ambulance was a blessing for our newborn's transfer."</p>
+          <p class="testimonial-author">&mdash; Dr. Anil Mehta</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="faq" role="region" aria-label="Frequently asked questions">
+      <h2>Frequently Asked Questions</h2>
+      <details>
+        <summary>How quickly can you dispatch an ambulance?</summary>
+        <div>We strive to dispatch an ambulance within 15 minutes of receiving a request in urban areas. Response times may vary in remote locations.</div>
+      </details>
+      <details>
+        <summary>Do you provide inter-hospital transfers?</summary>
+        <div>Yes, our ambulances are available for both emergency and scheduled inter-hospital patient transfers.</div>
+      </details>
+      <details>
+        <summary>Are your ambulances equipped with advanced medical technology?</summary>
+        <div>Our fleet includes Basic Life Support (BLS) and Advanced Life Support (ALS) ambulances equipped with state-of-the-art medical equipment and staffed by trained paramedics.</div>
+      </details>
+      <details>
+        <summary>Can I book an ambulance in advance?</summary>
+        <div>Yes, you can schedule ambulance services in advance by filling out the booking form or contacting our support team.</div>
+      </details>
+    </section>
+
+    <section id="contact" role="region" aria-label="Contact information and form">
+      <h2>Contact Us</h2>
+      <div id="contact-info">
+        <div>
+          <span class="material-icons" aria-hidden="true">call</span>
+          <p>Emergency Number</p>
+          <a href="tel:+911234567890" aria-label="Call emergency number">+91 12345 67890</a>
+        </div>
+        <div>
+          <span class="material-icons" aria-hidden="true">email</span>
+          <p>Email Support</p>
+          <a href="mailto:contact@dineshambulance.com" aria-label="Email contact address">contact@dineshambulance.com</a>
+        </div>
+        <div>
+          <span class="material-icons" aria-hidden="true">location_on</span>
+          <p>Service Headquarters</p>
+          <address>123 Wellness Street,<br />Cityname, State, ZIP</address>
+        </div>
+        <div>
+          <span class="material-icons" aria-hidden="true">schedule</span>
+          <p>Operating Hours</p>
+          <p>24/7 Emergency Service</p>
+        </div>
+      </div>
+      <div id="map-placeholder" role="img" aria-label="Map showing location of Dinesh Ambulance Service headquarters"></div>
+    </section>
+  </main>
+
+  <footer role="contentinfo">
+    &copy; 2024 Dinesh Ambulance Service. All rights reserved. | <a href="#privacy-policy">Privacy Policy</a>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Scroll reveal: show sections when near viewport
+      const revealSections = document.querySelectorAll('section, .service-card, .testimonial-card');
+      const revealOnScroll = () => {
+        const windowBottom = window.innerHeight + window.scrollY;
+        revealSections.forEach(elem => {
+          if (windowBottom > elem.offsetTop + 100) {
+            elem.classList.add('visible');
+          }
+        });
+      };
+      revealOnScroll();
+      window.addEventListener('scroll', revealOnScroll);
+
+      // Testimonial carousel setup
+      const testimonialsContainer = document.getElementById('testimonials-list');
+      if (testimonialsContainer) {
+        // Wrap cards in a container that hides overflow, add controls
+        const carouselWrapper = document.createElement('div');
+        carouselWrapper.classList.add('carousel-wrapper');
+        testimonialsContainer.parentNode.insertBefore(carouselWrapper, testimonialsContainer);
+        carouselWrapper.appendChild(testimonialsContainer);
+
+        // Create prev/next buttons
+        const prevBtn = document.createElement('button');
+        prevBtn.type = 'button';
+        prevBtn.className = 'carousel-btn prev-btn';
+        prevBtn.setAttribute('aria-label', 'Previous testimonial');
+        prevBtn.innerHTML = '<span class="material-icons">chevron_left</span>';
+
+        const nextBtn = document.createElement('button');
+        nextBtn.type = 'button';
+        nextBtn.className = 'carousel-btn next-btn';
+        nextBtn.setAttribute('aria-label', 'Next testimonial');
+        nextBtn.innerHTML = '<span class="material-icons">chevron_right</span>';
+
+        carouselWrapper.insertBefore(prevBtn, testimonialsContainer);
+        carouselWrapper.appendChild(nextBtn);
+
+        // Scroll amount
+        const scrollAmount = testimonialsContainer.children[0]?.offsetWidth + 32 || 320;
+
+        prevBtn.addEventListener('click', () => {
+          testimonialsContainer.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        });
+
+        nextBtn.addEventListener('click', () => {
+          testimonialsContainer.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        });
+      }
+
+      // Toast notification creation
+      const createToast = (message, type = 'success') => {
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.setAttribute('role', 'alert');
+        toast.setAttribute('aria-live', 'assertive');
+        toast.style.position = 'fixed';
+        toast.style.top = '20px';
+        toast.style.right = '20px';
+        toast.style.background = 'rgba(255 255 255 / 0.95)';
+        toast.style.borderLeft = type === 'success' ? '5px solid #22c55e' : '5px solid #ef4444';
+        toast.style.padding = '12px 24px';
+        toast.style.borderRadius = '6px';
+        toast.style.boxShadow = '0 5px 15px rgba(0,0,0,0.2)';
+        toast.style.fontWeight = '600';
+        toast.style.display = 'flex';
+        toast.style.alignItems = 'center';
+        toast.style.gap = '10px';
+        toast.style.zIndex = '9999';
+        toast.style.opacity = '0';
+        toast.style.transition = 'opacity 0.3s ease';
+
+        const icon = document.createElement('span');
+        icon.className = 'material-icons';
+        icon.setAttribute('aria-hidden', 'true');
+        icon.textContent = type === 'success' ? 'check_circle' : 'error';
+        icon.style.color = type === 'success' ? '#22c55e' : '#ef4444';
+
+        const text = document.createElement('div');
+        text.textContent = message;
+
+        toast.appendChild(icon);
+        toast.appendChild(text);
+
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+          toast.style.opacity = '1';
+        }, 10);
+
+        setTimeout(() => {
+          toast.style.opacity = '0';
+          setTimeout(() => {
+            document.body.removeChild(toast);
+          }, 300);
+        }, 4000);
+      };
+
+      // Form validation and submission handling
+      const form = document.getElementById('booking-form');
+      const successMessage = document.getElementById('form-success');
+
+      const fields = [
+        {id: 'name', required: true, errorId: 'error-name', validate: v => v.trim().length >= 2, errorMsg: 'Please enter your full name.'},
+        {id: 'phone', required: true, errorId: 'error-phone', validate: v => /^\+?\d{10,15}$/.test(v.trim()), errorMsg: 'Please enter a valid phone number with country code.'},
+        {id: 'service-type', required: true, errorId: 'error-service-type', validate: v => v.trim() !== '', errorMsg: 'Please select an ambulance type.'},
+        {id: 'pickup-location', required: true, errorId: 'error-pickup-location', validate: v => v.trim().length >= 5, errorMsg: 'Please enter the pickup location.'},
+        {id: 'destination-location', required: true, errorId: 'error-destination-location', validate: v => v.trim().length >= 5, errorMsg: 'Please enter the destination location.'}
+      ];
+
+      function clearErrors() {
+        fields.forEach(f => {
+          const errEl = document.getElementById(f.errorId);
+          if (errEl) errEl.textContent = '';
+          const inputEl = document.getElementById(f.id);
+          if (inputEl) inputEl.setAttribute('aria-invalid', 'false');
+        });
+      }
+
+      function validateForm() {
+        clearErrors();
+        let valid = true;
+        for (const f of fields) {
+          const el = document.getElementById(f.id);
+          if (!el) continue;
+          const value = el.value;
+          const matches = f.validate(value);
+          if (!matches) {
+            valid = false;
+            const errEl = document.getElementById(f.errorId);
+            if (errEl) errEl.textContent = f.errorMsg;
+            el.setAttribute('aria-invalid', 'true');
+          } else {
+            el.setAttribute('aria-invalid', 'false');
+          }
+        }
+        return valid;
+      }
+
+      function clearForm() {
+        form.reset();
+      }
+
+      if (form) {
+        form.addEventListener('submit', e => {
+          e.preventDefault();
+          successMessage.style.display = 'none';
+          if (!validateForm()) {
+            return;
+          }
+          // Simulate submission
+          const submitBtn = form.querySelector('button[type=submit]');
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Booking...';
+
+          setTimeout(() => {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Book Now <span class="material-icons" aria-hidden="true">send</span>';
+            successMessage.style.display = 'block';
+            createToast('Your booking request has been received. We will contact you shortly.', 'success');
+            form.scrollIntoView({behavior: 'smooth', block: 'center'});
+            clearForm();
+          }, 1500);
+        });
+      }
+
+      // Smooth scroll for nav links and highlight
+      const navLinks = document.querySelectorAll('nav a[href^="#"]');
+      navLinks.forEach(link => {
+        link.addEventListener('click', e => {
+          e.preventDefault();
+          const targetId = link.getAttribute('href').substring(1);
+          const targetEl = document.getElementById(targetId);
+          if (targetEl) {
+            targetEl.scrollIntoView({behavior: 'smooth', block: 'start'});
+            navLinks.forEach(l => l.removeAttribute('aria-current'));
+            link.setAttribute('aria-current', 'page');
+          }
+        });
+      });
+
+      // Button ripple effect
+      document.querySelectorAll('button, a.btn-primary').forEach(btn => {
+        btn.addEventListener('click', e => {
+          const rect = btn.getBoundingClientRect();
+          const ripple = document.createElement('span');
+          ripple.className = 'ripple';
+          ripple.style.left = e.clientX - rect.left + 'px';
+          ripple.style.top = e.clientY - rect.top + 'px';
+          btn.appendChild(ripple);
+          setTimeout(() => {
+            ripple.remove();
+          }, 600);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
+
